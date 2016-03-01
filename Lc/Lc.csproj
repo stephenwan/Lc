@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BestTimeToBuyAndSellStockII\Solution.cs" />
     <Compile Include="BinaryTreeZigzagLevelOrderTraversal\Solution.cs" />
+    <Compile Include="MergeKSortedLists\Solution.cs" />
     <Compile Include="PalindromePartitioning\Solution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuperUglyNumber\Solution.cs" />
