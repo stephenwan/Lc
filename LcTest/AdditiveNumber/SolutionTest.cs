@@ -30,8 +30,14 @@ namespace LcTest.AdditiveNumber
 	    [Test]
 	    public void Test4()
 	    {
-	        _solution.IsAdditiveNumber("11235813213455890144").Should().Be.True();
+	        _solution.IsAdditiveNumber("11235813213455890144").Should().Be.False();
 	    }
+
+        [Test]
+        public void Test5()
+        {
+            _solution.IsAdditiveNumber("8917").Should().Be.True();
+        }
 
     }
 }
