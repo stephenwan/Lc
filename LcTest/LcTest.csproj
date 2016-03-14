@@ -61,6 +61,7 @@
     <Compile Include="AdditiveNumber\SolutionTest.cs" />
     <Compile Include="BestTimeToBuyAndSellStockIITest\SolutionTest.cs" />
     <Compile Include="BinaryTreeZigzagLevelOrderTraversalTest\SolutionTest.cs" />
+    <Compile Include="DifferentWaysToAddParentheses\SolutionTest.cs" />
     <Compile Include="MaximumProductSubarray\SolutionTest.cs" />
     <Compile Include="MergeKSortedLists\SolutionTest.cs" />
     <Compile Include="PalindromePartitioningTest\SolutionTest.cs" />
