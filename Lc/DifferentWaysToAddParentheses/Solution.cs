@@ -10,7 +10,7 @@ namespace Lc.DifferentWaysToAddParentheses
 {
     public class Solution
     {
-        private Dictionary<Tuple<int, int>, List<int>> _cachedSolution = new Dictionary<Tuple<int, int>, List<int>>();
+        private readonly Dictionary<Tuple<int, int>, List<int>> _cachedSolution = new Dictionary<Tuple<int, int>, List<int>>();
         private int[] _numbers;
         private Operator[] _operators;
 

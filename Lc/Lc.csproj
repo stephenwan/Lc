@@ -42,6 +42,7 @@
     <Compile Include="AdditiveNumber\Solution.cs" />
     <Compile Include="BestTimeToBuyAndSellStockII\Solution.cs" />
     <Compile Include="BinaryTreeZigzagLevelOrderTraversal\Solution.cs" />
+    <Compile Include="ContainsDuplicateIII\Solution.cs" />
     <Compile Include="DifferentWaysToAddParentheses\Solution.cs" />
     <Compile Include="MaximumProductSubarray\Solution.cs" />
     <Compile Include="MergeKSortedLists\Solution.cs" />
