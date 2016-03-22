@@ -1,128 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lc.ContainsDuplicateIII
 {
     public class Solution
     {
-        private Item[] _window;
-        private int[] _posarray;
-        private int _curStart;
-        
+        private Dictionary<Tuple<int, int>, int> _cachedPathSum;
+        private Dictionary<int, int> _valueSpread; 
+        private int[] _nums;
+        private int _pRange;
+        private int _vRange;
 
         public bool ContainsNearbyAlmostDuplicate(int[] nums, int k, int t)
         {
-            if (nums.Length < 2) return false;
-            if (k < 2) return false;
-            if (nums.Length < k) k = nums.Length;
+                      
+            if (nums.Length < 2) return false;           
 
-
-            if (Initialzie(nums, k, t)) return true;
-
-            for (var i = k; i < nums.Length; i ++)
-            {
-                if (ReplaceCurrent(nums[i], k, t)) return true;
-            }
-
-            return false;
-        }
-
-
-        private bool Initialzie(int[] nums, int k, int t)
-        {
-            _window = new Item[k];
-            _posarray = new int[k];
-
-            for (var i = 0; i < k; i++)
-            {
-                _window[i] = new Item(nums[i], i);
-            }
-
-            Array.Sort(_window);
-
-            for (var i = 0; i < k; i++)
-            {
-                if (i < k - 1 && _window[i + 1].Value - _window[i].Value <= t) return true;
-                _posarray[_window[i].Position] = i;
-            }
-
-            _curStart = 0;
-            return false;
-        }
-
-        private bool ReplaceCurrent(int value, int k, int t)
-        {
-            _window[_posarray[_curStart]] = new Item(value, _curStart);
+            _pRange = k;
+            _vRange = t;
+            _nums = nums;
            
-            if (_posarray[_curStart] > 0)
-            {                               
-                for (var j = _posarray[_curStart] - 1; j >= 0; j --)
-                {
-                    if (_window[j].Value > _window[j + 1].Value)
-                    {
-                        if (_window[j].Value <= _window[j + 1].Value) return true;
-                        Swap(j, j + 1);                        
-                    }
-                    else
-                    {
-                        if (_window[j].Value >= _window[j + 1].Value - t) return true;
-                        break;
-                    }                        
-                }                
-            }
+            if (t < k ) return SolveByValueSpread();
+            return SolveByPathSum();
+        }
 
-            if (_posarray[_curStart] >= k - 1) return false;
+        private bool SolveByPathSum()
+        {
+            _cachedPathSum = new Dictionary<Tuple<int, int>, int>();
 
-            for (var j = _posarray[_curStart]; j <= k - 2; j++)
+            for (var i = 1; i <= _pRange; i++)
             {
-                if (_window[j].Value > _window[j + 1].Value)
+                for (var j = 0; j + i < _nums.Length; j++)
                 {
-                    if (_window[j].Value <= _window[j + 1].Value) return true;
-                    Swap(j, j + 1);
-                }
-                else
-                {
-                    if (_window[j].Value >= _window[j + 1].Value - t) return true;
-                    break;
+                    var pathSum = CalculatePathSum(j, j + i);
+                    if (pathSum <= _vRange && pathSum >= -_vRange) return true;
                 }
             }
-
-            if (_curStart == k - 1) _curStart = 0;
-            else _curStart++;
 
             return false;
         }
 
-        private void Swap(int i, int j)
+        private int CalculatePathSum(int start, int end)
         {
-            _posarray[_window[i].Position] = j;
-            _posarray[_window[j].Position] = i;
-
-            var temp = _window[i];
-            _window[i] = _window[j];
-            _window[j] = temp;
-        }
-        
-
-        class Item : IComparable<Item>
-        {
-            public readonly int Value;
-            public readonly int Position;
-
-            public Item(int value, int position)
+            int pathSum;
+            if (start == end - 1)
             {
-                Value = value;
-                Position = position;
+                pathSum = _nums[start + 1] - _nums[start];
+                _cachedPathSum[new Tuple<int, int>(start, end)] = pathSum;
+                return pathSum;
             }
 
-            public int CompareTo(Item other)
-            {
-                return Value.CompareTo(other.Value);
-            }
+            pathSum = _cachedPathSum[new Tuple<int, int>(start, end - 1)] +
+                      _cachedPathSum[new Tuple<int, int>(start + 1, end)];
+            if (start + 1 < end - 1) pathSum -= _cachedPathSum[new Tuple<int, int>(start + 1, end - 1)];
+            _cachedPathSum[new Tuple<int, int>(start, end)] = pathSum;
+            return pathSum;
         }
+
+        private bool SolveByValueSpread()
+        {
+            _valueSpread = new Dictionary<int, int>();
+            for (var i = 0; i < _nums.Length; i ++)
+            {
+                if (UpdateValueSpread(i, _nums[i])) return true;
+            }
+            return false;
+        }
+
+        private bool UpdateValueSpread(int p, int v)
+        {
+            if (_valueSpread.ContainsKey(v) && p - _valueSpread[v] <= _pRange) return true;
+            for (var i = v - _vRange; i <= v + _vRange; i++)
+            {
+                _valueSpread[i] = p;
+            }
+            return false;
+        }
+              
+
 
 
     }
