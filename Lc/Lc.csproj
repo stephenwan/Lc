@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditiveNumber\Solution.cs" />
+    <Compile Include="AddTwoNumbers\Solution.cs" />
     <Compile Include="BestTimeToBuyAndSellStockII\Solution.cs" />
     <Compile Include="BinaryTreeZigzagLevelOrderTraversal\Solution.cs" />
     <Compile Include="ContainsDuplicateIII\Solution.cs" />
